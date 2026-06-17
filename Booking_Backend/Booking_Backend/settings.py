@@ -128,3 +128,14 @@ import os
 # For offline serving
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+AUTH_USER_MODEL = "Room_Booking.User"
+AUTHENTICATION_BACKENDS = ['RoomBooking.auth_backend.EmailBackend']
+
+REST_FRAMEWORK = {
+  'DEFAULT_AUTHENTICATION_CLASSES': [
+    'rest_framework.authentication.BasicAuthentication',
+    'rest_framework.authentication.SessionAuthentication',
+    'rest_framework.authentication.TokenAuthentication',
+  ]
+}
