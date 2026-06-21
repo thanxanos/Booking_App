@@ -41,8 +41,21 @@ class UserList(generics.ListAPIView):
   serializer_class = UserSerializer
 
   def get_queryset(self):
-    return super().get_queryset()
+    user = self.request.user
+    if user.is_staff or user.is_superuser:
+      return User.objects.all()
+    else:
+      return User.objects.filter(id=user.id)
 
-class OccupiedDatesDetail(generics.RetrieveDestroyAPIView):
+class UserDetail(generics.RetrieveAPIView):
   queryset = OccupiedDate.objects.all()
   serializer_class = OccupiedDateSerializer
+
+  def get_object(self):
+    user = self.request.user
+    obj = super.get_object()
+
+    if obj == user or user.is_staff or user.is_superuser:
+      return obj
+    else:
+      pass
